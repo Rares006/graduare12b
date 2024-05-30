@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.983.0.min.js"></script>
+</head>
+<body>
+    <h1>12 B</h1>
+    <video id="video" autoplay muted></video>
+    <video id="previewVideo" controls playsinline webkit-playsinline style="display:none;"></video>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+    <div id="info"></div>
+    <div id="buttonContainer">
+        <button id="captureButton">Capturează</button>
+        <button id="recordButton">Înregistrează</button>
+        <button id="stopRecordButton" style="display:none;">Stop înregistrare</button>
+        <button id="repetatiButton" style="display:none;">Repetă</button>
+        <button id="sendButton" style="display:none;">Trimite</button>
+    </div>
+    <video id="previewVideo" controls playsinline webkit-playsinline style="display:none;"></video>
+    <img id="previewImage" style="display:none; margin-top: 20px;">
+    <script src="script.js"></script>
+</body>
+</html>
