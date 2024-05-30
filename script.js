@@ -6,7 +6,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 
 const s3 = new AWS.S3({
     apiVersion: '2006-03-01',
-    params: { Bucket: 'poze12b' },
+    params: { Bucket: 'poze12a' },
 });
 
 // Definim variabile pentru urmărirea stării camerei și a înregistrării
@@ -29,9 +29,9 @@ const info = document.getElementById('info');
 info.textContent = 'Fă o poză sau înregistrează un video care să rămână amintire a acestei ultime zile din viața de elev';
 info.style.fontSize = '24px';
 info.style.marginTop = '20px';
+info.style.color = '#161616';
 info.style.fontFamily = 'Times New Roman';
 info.style.fontWeight = 'bold';
-info.style.color = '#161616';
 info.style.display = 'block';
 
 // Adăugăm evenimentul click pentru capturarea pozei sau începerea înregistrării video
@@ -84,34 +84,23 @@ sendButton.addEventListener('click', function() {
 function activateCamera() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         navigator.mediaDevices.getUserMedia({ video: true, audio: { echoCancellation: true } }).then(function(stream) {
-            video.style.transform = 'rotateY(180deg)'; // oglindirea
+            video.style.transform = 'rotateY(180deg)';
             video.srcObject = stream;
             video.play();
             video.style.display = 'block';
             cameraDeschisa = true;
             captureButton.textContent = 'Capturează';
             recordButton.textContent = 'Înregistrează';
+
+            // Previne comportamentul full screen
+            video.setAttribute('playsinline', 'true'); 
+            video.setAttribute('webkit-playsinline', 'true');
         }).catch(function(error) {
             console.error('Eroare la accesarea camerei: ', error);
         });
     } else {
         alert('Browser-ul tău nu suportă accesul la cameră.');
     }
-}
-
-function takePicture() {
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    video.style.display = 'none';
-    captureButton.style.display = 'none';
-    recordButton.style.display = 'none';
-    info.style.display = 'none';
-    previewImage.src = canvas.toDataURL('image/png');
-    previewImage.style.display = 'block';
-    sendButton.style.display = 'block';
-    repetatiButton.style.display = 'block';
 }
 
 function startRecording() {
@@ -134,6 +123,10 @@ function startRecording() {
         previewVideo.style.display = 'block';
         sendButton.style.display = 'block';
         repetatiButton.style.display = 'block';
+
+        // Previne comportamentul full screen
+        previewVideo.setAttribute('playsinline', 'true'); 
+        previewVideo.setAttribute('webkit-playsinline', 'true');
     };
     mediaRecorder.start();
     stopRecordButton.style.display = 'block';
@@ -145,6 +138,22 @@ function startRecording() {
             mediaRecorder.stop();
         }
     }, 6000);
+}
+
+
+function takePicture() {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    video.style.display = 'none';
+    captureButton.style.display = 'none';
+    recordButton.style.display = 'none';
+    info.style.display = 'none';
+    previewImage.src = canvas.toDataURL('image/png');
+    previewImage.style.display = 'block';
+    sendButton.style.display = 'block';
+    repetatiButton.style.display = 'block';
 }
 
 function stopRecording() {
@@ -181,7 +190,8 @@ function uploadToS3(data, contentType) {
             sendButton.style.display = 'none';
             previewImage.style.display = 'none';
             previewVideo.style.display = 'none';
-            info.textContent = 'Felicitari! Maine vei gasi pe acest cod QR un album cu pozele facute azi.';
+            info.textContent = 'Felicitari! Maine vei gasi pe acest cod QR un album cu pozelefacute azi.';
+            info.style.color = '#e4c4c7';
             info.style.display = 'block';
         }
     });
