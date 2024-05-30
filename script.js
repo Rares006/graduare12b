@@ -190,8 +190,8 @@ function uploadToS3(data, contentType) {
             sendButton.style.display = 'none';
             previewImage.style.display = 'none';
             previewVideo.style.display = 'none';
-            info.textContent = 'Felicitari! Maine vei gasi pe acest cod QR un album cu pozelefacute azi.';
-            info.style.color = '#e4c4c7';
+            info.textContent = 'Felicitari! Maine vei gasi pe acest cod QR un album cu pozele facute azi.';
+            info.style.color = '#161616';
             info.style.display = 'block';
         }
     });
