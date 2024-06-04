@@ -9,13 +9,13 @@
       box-sizing: border-box;
     }
 
-    footer {
-      text-align: center;
-      padding: 6px;
-      background-color: #161616;
-      color: #f4f4f3;
-      font-family: 'Times New Roman', Times, serif; /* Schimbă fontul */
-      font-size: 16px; /* Schimbă dimensiunea textului */
+    footer{
+        text-align: center;
+        padding: 6px;
+        background-color: #161616;
+        color: #f4f4f3;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 16px;
     }
 
     body {
@@ -50,8 +50,8 @@
 
     @media screen and (max-width: 600px) {
       .column {
-        flex: 100%;
-        max-width: 100%;
+        flex: 50%;
+        max-width: 50%;
       }
     }
 
@@ -91,7 +91,7 @@
       position: absolute;
       top: 15px;
       right: 35px;
-      color: #f4f4f3;
+      color: #f1f1f1;
       font-size: 40px;
       font-weight: bold;
       transition: 0.3s;
@@ -99,12 +99,12 @@
 
     .close:hover,
     .close:focus {
-      color: rgb(177, 174, 174);
+      color: #bbb;
       text-decoration: none;
       cursor: pointer;
     }
 
-    /* Butonul pentru navigarea imaginilor */
+    /* Butoanele pentru navigarea imaginilor */
     .prev, .next {
       cursor: pointer;
       position: absolute;
@@ -112,7 +112,7 @@
       width: auto;
       padding: 16px;
       margin-top: -50px;
-      color: #f4f4f3;
+      color: white;
       font-weight: bold;
       font-size: 20px;
       transition: 0.6s ease;
@@ -138,6 +138,15 @@
       .modal-content {
         width: 100%;
       }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #333;
+      color: white;
+      font-family: Arial, sans-serif; /* Schimbă fontul */
+      font-size: 16px; /* Schimbă dimensiunea textului */
     }
   </style>
 </head>
@@ -210,72 +219,79 @@
     <div id="caption"></div>
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-
-<script>
+  </div>
+  
+  <script>
     var modal = document.getElementById("myModal");
     var images = document.querySelectorAll(".column img");
     var videos = document.querySelectorAll(".column video");
     var modalImg = document.getElementById("img01");
+    var modalVid = document
     var modalVid = document.getElementById("vid01");
     var captionText = document.getElementById("caption");
     var currentIndex = 0;
-    var mediaItems = Array.from(images).concat(Array.from(videos));
-
-    mediaItems.forEach(function(media, index) {
-      media.onclick = function() {
-        modal.style.display = "block";
-        currentIndex = index;
-        if (media.tagName.toLowerCase() === 'img') {
-          modalImg.src = media.src;
-          modalImg.style.display = "block";
-          modalVid.style.display = "none";
-          captionText.innerHTML = media.alt;
-        } else {
-          modalVid.src = media.src;
-          modalVid.style.display = "block";
-          modalImg.style.display = "none";
-          captionText.innerHTML = "";
-        }
+    var mediaElements = Array.from(images).concat(Array.from(videos));
+  
+    images.forEach(function(img, index) {
+      img.onclick = function() {
+        openModal(index, 'img');
       }
     });
-
-    var span = document.getElementsByClassName("close")[0];
-
-    span.onclick = function() { 
-      modal.style.display = "none";
-      modalImg.src = "";
-      modalVid.src = "";
+  
+    videos.forEach(function(video, index) {
+      video.onclick = function() {
+        openModal(index + images.length, 'vid');
+      }
+    });
+  
+    function openModal(index, type) {
+      modal.style.display = "block";
+      currentIndex = index;
+      if (type === 'img') {
+        modalImg.src = mediaElements[currentIndex].src;
+        modalImg.style.display = "block";
+        modalVid.style.display = "block";
+        captionText.innerHTML = mediaElements[currentIndex].alt;
+      } else {
+        modalVid.src = mediaElements[currentIndex].src;
+        modalVid.style.display = "block";
+        modalImg.style.display = "block";
+        captionText.innerHTML = "";
+      }
     }
-
+  
     function closeModal() {
       modal.style.display = "none";
       modalImg.src = "";
       modalVid.src = "";
     }
-
+  
     function plusSlides(n) {
       currentIndex += n;
-      if (currentIndex >= mediaItems.length) {
+      if (currentIndex >= mediaElements.length) {
         currentIndex = 0;
       } else if (currentIndex < 0) {
-        currentIndex = mediaItems.length - 1;
+        currentIndex = mediaElements.length - 1;
       }
-      var media = mediaItems[currentIndex];
-      if (media.tagName.toLowerCase() === 'img') {
-        modalImg.src = media.src;
+  
+      if (mediaElements[currentIndex].tagName.toLowerCase() === 'img') {
+        modalImg.src = mediaElements[currentIndex].src;
         modalImg.style.display = "block";
         modalVid.style.display = "none";
-        captionText.innerHTML = media.alt;
+        captionText.innerHTML = mediaElements[currentIndex].alt;
       } else {
-        modalVid.src = media.src;
+        modalVid.src = mediaElements[currentIndex].src;
         modalVid.style.display = "block";
         modalImg.style.display = "none";
         captionText.innerHTML = "";
       }
     }
-</script>
-
+  
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = closeModal;
+  
+  </script>
+  
 <footer>
   <p>Site creat de 11A.</p>
 </footer>  
