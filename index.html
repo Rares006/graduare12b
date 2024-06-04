@@ -49,10 +49,6 @@
     }
 
     @media screen and (max-width: 600px) {
-      .row {
-        display: block; /* Schimbăm afișarea pe mobil pentru a fi sub forma de coloane */
-      }
-      
       .column {
         flex: 100%;
         max-width: 100%;
@@ -103,7 +99,7 @@
 
     .close:hover,
     .close:focus {
-      color: rgb(177, 174, 174)4f3;
+      color: rgb(177, 174, 174);
       text-decoration: none;
       cursor: pointer;
     }
@@ -180,7 +176,6 @@
     <video src="graduareb/captured_media_1717486454674.mp4" controls></video>
   </div>
   <div class="column">
-
     <img src="graduareb/captured_media_1717489452498.png" alt="Image 31">
     <img src="graduareb/captured_media_1717489473773.png" alt="Image 32">
     <img src="graduareb/captured_media_1717489475003.png" alt="Image 36">
@@ -215,9 +210,9 @@
     <div id="caption"></div>
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
-  </div>
-  
-  <script>
+</div>
+
+<script>
     var modal = document.getElementById("myModal");
     var images = document.querySelectorAll(".column img");
     var videos = document.querySelectorAll(".column video");
@@ -225,58 +220,65 @@
     var modalVid = document.getElementById("vid01");
     var captionText = document.getElementById("caption");
     var currentIndex = 0;
-  
-    images.forEach(function(img, index) {
-      img.onclick = function() {
+    var mediaItems = Array.from(images).concat(Array.from(videos));
+
+    mediaItems.forEach(function(media, index) {
+      media.onclick = function() {
         modal.style.display = "block";
         currentIndex = index;
-        modalImg.src = this.src;
-        modalImg.style.display = "block";
-        modalVid.style.display = "block";
-        captionText.innerHTML = this.alt;
+        if (media.tagName.toLowerCase() === 'img') {
+          modalImg.src = media.src;
+          modalImg.style.display = "block";
+          modalVid.style.display = "none";
+          captionText.innerHTML = media.alt;
+        } else {
+          modalVid.src = media.src;
+          modalVid.style.display = "block";
+          modalImg.style.display = "none";
+          captionText.innerHTML = "";
+        }
       }
     });
-  
-    videos.forEach(function(video, index) {
-      video.onclick = function() {
-        modal.style.display = "block";
-        currentIndex = index;
-        modalVid.src = this.src;
-        modalVid.style.display = "block";
-        modalImg.style.display = "block";
-        captionText.innerHTML = "";
-      }
-    });
-  
+
     var span = document.getElementsByClassName("close")[0];
-  
+
     span.onclick = function() { 
       modal.style.display = "none";
       modalImg.src = "";
       modalVid.src = "";
     }
-  
+
     function closeModal() {
       modal.style.display = "none";
       modalImg.src = "";
       modalVid.src = "";
     }
-  
+
     function plusSlides(n) {
       currentIndex += n;
-      if (currentIndex >= images.length) {
+      if (currentIndex >= mediaItems.length) {
         currentIndex = 0;
       } else if (currentIndex < 0) {
-        currentIndex = images.length - 1;
+        currentIndex = mediaItems.length - 1;
       }
-      modalImg.src = images[currentIndex].src;
-      captionText.innerHTML = images[currentIndex].alt;
+      var media = mediaItems[currentIndex];
+      if (media.tagName.toLowerCase() === 'img') {
+        modalImg.src = media.src;
+        modalImg.style.display = "block";
+        modalVid.style.display = "none";
+        captionText.innerHTML = media.alt;
+      } else {
+        modalVid.src = media.src;
+        modalVid.style.display = "block";
+        modalImg.style.display = "none";
+        captionText.innerHTML = "";
+      }
     }
-  </script>
-  
-  <footer>
-    <p>Site creat de 11A.</p>
-  </footer>  
+</script>
 
-  </body>
-  </html>
+<footer>
+  <p>Site creat de 11A.</p>
+</footer>  
+
+</body>
+</html>
